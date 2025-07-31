@@ -1,0 +1,257 @@
+# ============================
+# macOS 관련 무시 설정
+# ============================
+
+# 일반적으로 macOS에서 자동 생성하는 메타데이터 파일들
+.DS_Store              # 폴더별 아이콘 위치, 보기 설정 등 저장하는 숨김파일
+.AppleDouble           # 네트워크 볼륨에서 사용하는 리소스 포크 저장 파일
+.LSOverride            # 런치 서비스 관련 캐시 파일
+
+# Finder 아이콘용 특수 파일 (아이콘 이름은 반드시 "Icon"이고 두 개의 \r로 끝남)
+Icon
+
+# 썸네일 관련 파일 (파일 앞에 "._" 붙음)
+._*
+
+# 볼륨 루트에 생성되는 시스템 관련 파일들
+.DocumentRevisions-V100
+.fseventsd             # 파일 시스템 이벤트 데몬 관련 폴더
+.Spotlight-V100        # Spotlight 색인 관련 폴더
+.TemporaryItems        # 임시 저장 파일 폴더
+.Trashes               # 휴지통 폴더
+.VolumeIcon.icns       # 볼륨 아이콘 이미지 파일
+.com.apple.timemachine.donotpresent  # 타임머신 백업 제외 표시 파일
+
+# AFP (Apple Filing Protocol) 원격 네트워크 공유에서 생성될 수 있는 폴더들
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk                # Apple 디스크 어트리뷰트
+
+# iCloud 관련 자동 생성 파일
+*.icloud
+
+
+# ============================
+# Node.js 관련 무시 설정
+# ============================
+
+# 로그 파일들
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Node.js 진단 리포트 파일 (Node 12+)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# 런타임 프로세스 ID 파일, 잠금 파일 등
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# jscoverage나 JSCover가 생성하는 커버리지용 라이브러리 디렉터리
+lib-cov
+
+# 코드 커버리지 결과물 디렉터리 및 파일들
+coverage
+*.lcov
+
+# nyc (Istanbul 기반) 커버리지 출력 폴더
+.nyc_output
+
+# Grunt 작업 임시 저장 폴더
+.grunt
+
+# Bower 패키지 디렉터리
+bower_components
+
+# node-waf 빌드 구성 파일
+.lock-wscript
+
+# 컴파일된 네이티브 애드온 바이너리 폴더
+build/Release
+
+# 의존성 저장 디렉터리
+node_modules/
+jspm_packages/
+
+# Snowpack 패키지 디렉터리
+web_modules/
+
+# TypeScript 빌드 캐시 파일
+*.tsbuildinfo
+
+# npm 캐시 디렉터리 (선택적)
+.npm
+
+# ESLint 캐시 파일 (선택적)
+.eslintcache
+
+# Stylelint 캐시 파일 (선택적)
+.stylelintcache
+
+# Microbundle 빌드 캐시 디렉터리
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Node REPL 히스토리 파일
+.node_repl_history
+
+# npm pack 명령어 실행 시 생성되는 tarball 파일
+*.tgz
+
+# Yarn 무결성 검사 파일
+.yarn-integrity
+
+# dotenv 환경변수 파일들 - 실제 비밀키 등 민감 정보는 무시
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# 하지만 프로젝트에서 공유할 샘플 환경변수 파일은 반드시 Git에 포함시켜야 하므로
+# .env.example 파일로 만들어 별도 관리하고 Git에는 포함하세요.
+!.env.example
+
+# Parcel 번들러 캐시 폴더
+.cache
+.parcel-cache
+
+# Next.js 빌드 결과물 폴더
+.next
+out
+
+# Nuxt.js 빌드 및 생성 폴더
+.nuxt
+dist
+
+# Gatsby 빌드 캐시 폴더
+.cache/
+# Gatsby 프로젝트가 아닌 경우 public 폴더는 무시하지 말 것
+# public
+
+# VuePress 빌드 결과물
+.vuepress/dist
+
+# VuePress v2 임시 및 캐시 디렉터리
+.temp
+
+# Docusaurus 캐시 및 생성 파일
+.docusaurus
+
+# Serverless 프레임워크 관련 폴더
+.serverless/
+
+# FuseBox 번들러 캐시
+.fusebox/
+
+# DynamoDB Local 관련 폴더
+.dynamodb/
+
+# TernJS 포트 파일
+.tern-port
+
+# VSCode 테스트용 확장 버전 저장소
+.vscode-test
+
+# Yarn v2 관련 캐시 폴더 및 파일들
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Serverless Webpack 캐시 폴더
+.webpack/
+
+# SvelteKit 빌드 결과물 및 임시 폴더
+.svelte-kit
+
+
+# ============================
+# pnpm 관련 무시 설정
+# ============================
+
+# pnpm 저장소 캐시 (프로젝트 로컬에 있으면 무시)
+.pnpm-store/
+
+# pnpm 디버그 로그 파일 무시
+.pnpm-debug.log*
+
+
+# ============================
+# React 관련
+# ============================
+
+.DS_*               # macOS .DS_Store 관련 파일 무시
+**/*.backup.*       # 백업 확장자 포함 파일 무시
+**/*.back.*         # 백업 확장자 포함 파일 무시
+
+node_modules        # React 프로젝트 의존성 폴더 무시
+
+*.sublime*          # Sublime Text 에디터 관련 파일 무시
+
+psd                 # 포토샵 파일 무시 (용량 큼)
+thumb               # 썸네일 이미지 관련 파일 무시
+sketch              # Sketch 디자인 파일 무시
+
+
+# ============================
+# Visual Studio Code 관련
+# ============================
+
+.vscode/*           # .vscode 폴더 내 모든 파일 무시
+!.vscode/settings.json    # 단, 설정 파일은 예외로 포함
+!.vscode/tasks.json       # 작업(Task) 설정은 예외로 포함
+!.vscode/launch.json      # 런치 설정 포함
+!.vscode/extensions.json  # 확장 설정 포함
+!.vscode/*.code-snippets  # 코드 스니펫 포함
+
+# VSCode 로컬 히스토리 폴더 무시
+.history/
+
+# VSCode로 빌드한 확장자 패키지 파일
+*.vsix
+
+# VSCode Patch - 로컬 히스토리 무시
+.history
+.ionide          # Ionide(F#용 VSCode 확장) 관련 파일 무시
+
+
+# ============================
+# Windows 관련
+# ============================
+
+# Windows 썸네일 캐시 파일
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Windows 메모리 덤프 파일
+*.stackdump
+
+# 폴더 설정 파일 (윈도우 탐색기에서 폴더 보기 설정 저장)
+[Dd]esktop.ini
+
+# 네트워크 공유 휴지통 폴더
+$RECYCLE.BIN/
+
+# Windows 설치 프로그램 관련 파일들
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows 바로가기 파일
+*.lnk
