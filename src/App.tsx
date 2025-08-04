@@ -1,16 +1,17 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import SignIn from './pages/Authentication/SignIn';
-import SignUp from './pages/Authentication/SignUp';
 
-function App() {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import routes from './routes/routes';
+
+const App: React.FC = () => {
   return (
-    <Routes>
-      <Route path='/auth'>
-        <Route path='sign-in' element={<SignIn />} />
-        <Route path='sign-up' element={<SignUp />} />
-      </Route>
-    </Routes>
+    <Router>
+      <Routes>
+        {routes.map((route, index) => (
+          <Route key={index} path={route.path} element={route.element} />
+        ))}
+      </Routes>
+    </Router>
   );
 }
 

@@ -3,10 +3,11 @@ import React, { type ChangeEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponseCode, ResponseMessage } from "@/types/constants";
 import type { ResponseBody } from "@/types";
-import { useCookies } from "react-cookie";
 import type { SignInResponseDto } from "@/apis/response/auth";
 import type { SignInRequestDto } from "@/apis/request/auth";
-import { signInRequest } from "@/apis";
+import { signInRequest, getUserInfo } from "@/apis";
+import { useAuthStore } from "@/stores/authStore";
+import { useUserStore } from "@/stores/userStore";
 import '@styles/pages/Auth/SignIn.css';
 
 const SignIn: React.FC = () => {
@@ -14,33 +15,50 @@ const SignIn: React.FC = () => {
     const idRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
 
-    const [Cookies, setCookie] = useCookies();
-
     const [userId, setUserId] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const [message, setMessage] = useState<string>("");
 
+    const { setAccessToken } = useAuthStore.getState();
+    const { setUser } = useUserStore.getState();
+
     const navigate = useNavigate();
 
-    const signInResponse = (responseBody: ResponseBody<SignInResponseDto>) => {
+    const signInResponse = async (responseBody: ResponseBody<SignInResponseDto>) => {
         if (!responseBody) return;
 
         const { code } = responseBody;
-        if (code === ResponseCode.USER_NOT_FOUND) alert('아이디와 비밀번호를 입력하세요.');
-        if (code === ResponseCode.SIGN_IN_FAIL) setMessage(ResponseMessage.SF);
-        if (code === ResponseCode.DATABASE_ERROR) alert(ResponseMessage.DBE);
+        if (code === ResponseCode.USER_NOT_FOUND) {
+            alert('아이디와 비밀번호를 입력하세요.');
+            return;
+        }
+        if (code === ResponseCode.SIGN_IN_FAIL) {
+            setMessage(ResponseMessage.SF);
+            return;
+        }
+        if (code === ResponseCode.DATABASE_ERROR) {
+            alert(ResponseMessage.DBE);
+            return;
+        }
         if (code !== ResponseCode.SUCCESS) return;
 
         const { token, expirationTime } = responseBody as SignInResponseDto;
 
-        const now = (new Date().getTime()) * 1000;
+        const now = new Date().getTime();
         const expires = new Date(now + expirationTime);
 
-        setCookie(`accessToken`, token, { expires, path: '/' });
-        navigate('/auth/sign-up');
+        setAccessToken(token);
 
+        try {
+            const userInfo = await getUserInfo(token);
+            setUser(userInfo); // 잊지 말고 user store에 저장
+            navigate('/home'); // 예시로 홈 이동
+        } catch (error) {
+            alert("사용자 정보 조회 중 오류가 발생했습니다.");
+        }
     }
+
 
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
