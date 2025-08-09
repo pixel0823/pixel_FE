@@ -107,7 +107,6 @@ const LaserText: React.FC = () => {
             width={window.innerWidth}
             height={window.innerHeight}
             style={{
-                background: "#150101ff",
                 display: "block",
                 margin: "0 auto"
             }}
