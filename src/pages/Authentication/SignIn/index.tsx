@@ -53,6 +53,7 @@ const SignIn: React.FC = () => {
         try {
             const userInfo = await getUserInfo(token);
             setUser(userInfo); // 잊지 말고 user store에 저장
+            console.log(userInfo);
             navigate('/home'); // 예시로 홈 이동
         } catch (error) {
             alert("사용자 정보 조회 중 오류가 발생했습니다.");
