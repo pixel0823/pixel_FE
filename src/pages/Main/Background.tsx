@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import LaserText from "./LaserText";
 
+
 interface ParticleOptions {
     minSpeedX: number;
     maxSpeedX: number;
@@ -21,6 +22,7 @@ interface ParticleOptions {
     onDestroy?: () => void;
 }
 
+
 const defaultOptions: ParticleOptions = {
     minSpeedX: 0.1,
     maxSpeedX: 0.7,
@@ -29,8 +31,8 @@ const defaultOptions: ParticleOptions = {
     directionX: "center",
     directionY: "center",
     density: 10000,
-    dotColor: "#FF1A1A",      // 점 색상 (예: 빨간색)
-    lineColor: "#8B0000",     // 선 색상 (예: 붉은색)
+    dotColor: "#FF1A1A",      // 점 색상 (예: 빨간색)
+    lineColor: "#8B0000",     // 선 색상 (예: 붉은색)
     particleRadius: 4,
     lineWidth: 1,
     curvedLines: false,
@@ -41,15 +43,18 @@ const defaultOptions: ParticleOptions = {
     onDestroy: undefined,
 };
 
+
 interface Position {
     x: number;
     y: number;
 }
 
+
 interface Speed {
     x: number;
     y: number;
 }
+
 
 class Particle {
     position: Position;
@@ -61,12 +66,14 @@ class Particle {
     parallaxTargX: number = 0;
     parallaxTargY: number = 0;
 
+
     constructor(canvas: HTMLCanvasElement, options: ParticleOptions) {
         this.position = {
             x: Math.ceil(Math.random() * canvas.width),
             y: Math.ceil(Math.random() * canvas.height),
         };
         this.layer = Math.ceil(Math.random() * 3);
+
 
         // DirectionX
         switch (options.directionX) {
@@ -91,6 +98,7 @@ class Particle {
                 break;
         }
 
+
         // DirectionY
         switch (options.directionY) {
             case "up":
@@ -106,9 +114,11 @@ class Particle {
         }
     }
 
+
     setStackPos(i: number) {
         this.stackPos = i;
     }
+
 
     // 업데이트
     updatePosition(
@@ -143,6 +153,7 @@ class Particle {
         }
         const elWidth = canvas.width;
         const elHeight = canvas.height;
+
 
         // x축
         switch (options.directionX) {
@@ -185,6 +196,7 @@ class Particle {
         this.position.y += this.speed.y;
     }
 
+
     draw(
         ctx: CanvasRenderingContext2D,
         options: ParticleOptions,
@@ -202,6 +214,7 @@ class Particle {
         );
         ctx.closePath();
         ctx.fill();
+
 
         ctx.beginPath();
         // Stack 기준 위쪽 입자들과 거리비교해서 선 연결
@@ -229,9 +242,11 @@ class Particle {
     }
 }
 
+
 // React 컴포넌트
 const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
 
     useEffect(() => {
         const opts: ParticleOptions = { ...defaultOptions, ...(options || {}) };
@@ -239,6 +254,7 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
+
 
         function styleCanvas() {
             if (!canvas) return;
@@ -251,6 +267,7 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
         }
         styleCanvas();
 
+
         // 파티클 생성
         let particles: Particle[] = [];
         const numParticles = Math.round((canvas.width * canvas.height) / opts.density);
@@ -259,6 +276,7 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
             p.setStackPos(i);
             particles.push(p);
         }
+
 
         // 상태 저장용
         let mouseX = canvas.width / 2;
@@ -270,27 +288,23 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
         const orientationSupport = "DeviceOrientationEvent" in window;
         let tiltX = 0, tiltY = 0;
 
+
         function resizeHandler() {
+            if (!canvas) return;
             styleCanvas();
             winW = window.innerWidth;
             winH = window.innerHeight;
-            // 입자 개수 재조절
-            if (!canvas) return;
+            // 입자 배열을 새로 생성 (즉각 반응형)
             const newNumParticles = Math.round((canvas.width * canvas.height) / opts.density);
-            if (newNumParticles > particles.length) {
-                while (newNumParticles > particles.length) {
-                    const p = new Particle(canvas, opts);
-                    p.setStackPos(particles.length);
-                    particles.push(p);
-                }
-            } else if (newNumParticles < particles.length) {
-                particles.splice(newNumParticles);
-            }
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].setStackPos(i);
+            particles = [];
+            for (let i = 0; i < newNumParticles; i++) {
+                const p = new Particle(canvas, opts);
+                p.setStackPos(i);
+                particles.push(p);
             }
         }
         window.addEventListener("resize", resizeHandler);
+
 
         // 마우스 이벤트
         function handleMouseMove(e: MouseEvent) {
@@ -298,6 +312,7 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
             mouseY = e.pageY;
         }
         document.addEventListener("mousemove", handleMouseMove);
+
 
         if (orientationSupport && !desktop) {
             window.addEventListener("deviceorientation", function (event: DeviceOrientationEvent) {
@@ -307,6 +322,7 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
                 }
             }, true);
         }
+
 
         // 메인 렌더 함수
         function draw() {
@@ -328,6 +344,7 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
         draw();
         if (opts.onInit) opts.onInit();
 
+
         return () => {
             window.removeEventListener("resize", resizeHandler);
             document.removeEventListener("mousemove", handleMouseMove);
@@ -335,6 +352,7 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
             cancelAnimationFrame(animationId);
         };
     }, [options]);
+
 
     return (
         <div>
@@ -354,5 +372,6 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
         </div>
     );
 };
+
 
 export default Background;
