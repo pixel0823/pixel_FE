@@ -30,27 +30,29 @@ const LaserText: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        const resizeCanvas = () => {
-            const canvas = canvasRef.current;
-            if (!canvas) return;
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-        resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
+        let points: { x: number; y: number }[] = [];
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let origin = { x: width / 2, y: height - 100 };
 
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const width = canvas.width;
-        const height = canvas.height;
         const ctx = canvas.getContext("2d", { willReadFrequently: true });
         if (!ctx) return;
 
-        const points = getTextCoords(ctx, "PIXEL", width, height / 2, 8);
-
-        // 아래 원 (원점)
-        const origin = { x: width / 2, y: height - 100 }; // 기존보다 100px 더 위로 올림
+        function resizeCanvas() {
+            if (!canvas) return;
+            if (!ctx) return;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            width = canvas.width;
+            height = canvas.height;
+            origin = { x: width / 2, y: height - 100 };
+            points = getTextCoords(ctx, "PIXEL", width, height / 2, 8);
+        }
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
 
         let running = true;
         function draw(t: number) {
