@@ -1,11 +1,15 @@
+import { SlideCustomProps, slideVariants } from "@/components/page/SlideVariants";
 import { motion } from "framer-motion";
 
-const SectionIntro: React.FC = () => (
+interface SectionIntroProps extends SlideCustomProps { }
+
+const SectionIntro: React.FC<SectionIntroProps> = ({ enter, exitDir }) => (
     <motion.div
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: -100, opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        custom={{ enter, exitDir }}
+        variants={slideVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
         style={{ width: "100%", padding: "62px 30px" }}
     >
         <h2 style={{ color: "#FF1A1A" }}>게임 소개 및 설명</h2>

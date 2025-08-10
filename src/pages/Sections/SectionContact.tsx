@@ -1,9 +1,9 @@
 import { SlideCustomProps, slideVariants } from "@/components/page/SlideVariants";
 import { motion } from "framer-motion";
 
-interface SectionCommunityProps extends SlideCustomProps { }
+interface SectionContactProps extends SlideCustomProps { }
 
-const SectionCommunity: React.FC<SectionCommunityProps> = ({ enter, exitDir }) => (
+const SectionContact: React.FC<SectionContactProps> = ({ enter, exitDir }) => (
     <motion.div
         custom={{ enter, exitDir }}
         variants={slideVariants}
@@ -12,9 +12,9 @@ const SectionCommunity: React.FC<SectionCommunityProps> = ({ enter, exitDir }) =
         exit="exit"
         style={{ width: "100%", padding: "62px 30px" }}
     >
-        <h2 style={{ color: "#FF1A1A" }}>커뮤니티</h2>
-        <p style={{ color: "#fff" }}>유저 소통 게시판 및 팁 공유.</p>
+        <h2 style={{ color: "#FF1A1A" }}>고객센터</h2>
+        <p style={{ color: "#fff" }}>고객센터.</p>
     </motion.div>
 );
 
-export default SectionCommunity;
+export default SectionContact;
