@@ -291,18 +291,71 @@ const Background: React.FC<{ options?: Partial<ParticleOptions> }> = ({ options 
 
         function resizeHandler() {
             if (!canvas) return;
+
+            const oldWidth = canvas.width;
+            const oldHeight = canvas.height;
+
             styleCanvas();
             winW = window.innerWidth;
             winH = window.innerHeight;
-            // 입자 배열을 새로 생성 (즉각 반응형)
+
             const newNumParticles = Math.round((canvas.width * canvas.height) / opts.density);
-            particles = [];
-            for (let i = 0; i < newNumParticles; i++) {
-                const p = new Particle(canvas, opts);
-                p.setStackPos(i);
-                particles.push(p);
+            const diff = newNumParticles - particles.length;
+
+            if (diff > 0) {
+                for (let i = 0; i < diff; i++) {
+                    const p = new Particle(canvas, opts);
+
+                    let posX: number;
+                    let posY: number;
+
+                    if (canvas.width > oldWidth && canvas.height > oldHeight) {
+                        // 가로, 세로 모두 늘어난 경우 → 세 구역 중 하나를 랜덤 선택
+                        const zone = Math.floor(Math.random() * 3);
+                        if (zone === 0) {
+                            // 오른쪽 새 영역
+                            posX = Math.random() * (canvas.width - oldWidth) + oldWidth;
+                            posY = Math.random() * oldHeight;
+                        } else if (zone === 1) {
+                            // 아래쪽 새 영역
+                            posX = Math.random() * oldWidth;
+                            posY = Math.random() * (canvas.height - oldHeight) + oldHeight;
+                        } else {
+                            // 오른쪽 아래 코너
+                            posX = Math.random() * (canvas.width - oldWidth) + oldWidth;
+                            posY = Math.random() * (canvas.height - oldHeight) + oldHeight;
+                        }
+                    } else if (canvas.width > oldWidth) {
+                        // 가로만 늘어난 경우
+                        posX = Math.random() * (canvas.width - oldWidth) + oldWidth;
+                        posY = Math.random() * canvas.height;
+                    } else if (canvas.height > oldHeight) {
+                        // 세로만 늘어난 경우
+                        posX = Math.random() * canvas.width;
+                        posY = Math.random() * (canvas.height - oldHeight) + oldHeight;
+                    } else {
+                        // 줄어든 경우에는 그냥 랜덤
+                        posX = Math.random() * canvas.width;
+                        posY = Math.random() * canvas.height;
+                    }
+
+                    p.position.x = posX;
+                    p.position.y = posY;
+
+                    p.setStackPos(particles.length + i);
+                    particles.push(p);
+                }
+            } else if (diff < 0) {
+                particles.splice(diff); // 줄어든 경우
+            }
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].setStackPos(i);
             }
         }
+
+
+
         window.addEventListener("resize", resizeHandler);
 
 
