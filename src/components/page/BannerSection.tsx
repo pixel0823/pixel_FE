@@ -8,7 +8,7 @@ const BannerSectionWrapper = styled(motion.div)`
   position: relative;
   top: ${HEADER_HEIGHT}px;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: ${BANNER_HEIGHT}px;
   display: flex;
   align-items: center;

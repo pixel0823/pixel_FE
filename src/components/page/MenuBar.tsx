@@ -8,7 +8,7 @@ const MenuBarWrapper = styled.nav<{ fixed: boolean }>`
   position: ${({ fixed }) => (fixed ? "fixed" : "absolute")};
   top: ${({ fixed }) => (fixed ? `${HEADER_HEIGHT}px` : `${HEADER_HEIGHT + BANNER_HEIGHT}px`)};
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: ${MENU_BAR_HEIGHT}px;
   background: #353535;
   display: flex;

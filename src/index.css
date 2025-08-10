@@ -7,6 +7,18 @@
 
 
 body {
+  margin: 0;
+  /* 기본 브라우저 마진 제거 */
+  padding: 0;
+  /* 기본 브라우저 패딩 제거 */
+  width: 100%;
+  /* 화면 너비 전체 차지 */
+  overflow-x: hidden;
+  /* 좌우 스크롤 숨김 (좌우 밀림 방지) */
+  box-sizing: border-box;
+  /* 패딩과 보더 포함 크기 계산 */
+  background-color: #232326;
+  /* 전체 배경색 지정 (프로젝트에 맞게 조절) */
   margin: 0 !important;
   font-family: Ownglyph_ParkDaHyun;
   -webkit-font-smoothing: antialiased;

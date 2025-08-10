@@ -8,7 +8,7 @@ const PageContainerWrapper = styled.div<{ menuFixed: boolean }>`
   margin-top: ${({ menuFixed }) =>
         menuFixed ? HEADER_HEIGHT : HEADER_HEIGHT
     }px;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background: #232326;
   position: relative;
